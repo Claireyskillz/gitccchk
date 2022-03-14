@@ -25,28 +25,14 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 
 // Add your functions below:
 
-
-//function to create an odd index and an even index array
+//function to check if an individual credit card number is valid
  const validateCred = (cardNo) => {
 
-    let reversedArray = cardNo.slice().reverse();
+  let reversedArray = cardNo.reverse();
 
-    //console.log('reversed Array' + reversedArray);
- 
-    const oddIndex = [];
-    const sumArray = [];
-
-    for (let i=0; i<cardNo.length; i++) {
-      if ((i)%2==1) {
-      oddIndex.push(reversedArray[i]);
-      } else if ((i)%2==0) {
-      sumArray.push(reversedArray[i]);
-      }
-    };
-
-   // console.log('even indices (straight to sumArr) = ' + sumArray);
-   // console.log('odd indices = ' + oddIndex);
-
+//console.log('reversed Array' + reversedArray);
+  const oddIndex = [];
+  const sumArray = [];
 
     const sortOdds = (num) => {
     if (num*2 < 9) {
@@ -56,43 +42,104 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
     }
   };
 
-    oddIndex.forEach(sortOdds);
+  for (let i=0; i<cardNo.length; i++) {
+     
+    if ((i)%2==1) {
+    oddIndex.push(reversedArray[i]);
+    } else if ((i)%2==0) {
+    sumArray.push(reversedArray[i]);
+    }
+  };
 
-   // console.log('Sum array total(with processed odds) = ' + sumArray);
+// console.log('even indices (straight to sumArr) = ' + sumArray);
+// console.log('odd indices = ' + oddIndex);
+
+  oddIndex.forEach(sortOdds);
+
+// console.log('Sum array total(with processed odds) = ' + sumArray);
 
 
 //total of the numbers in sumArray
-    const sum = sumArray.reduce((total, amount) => total + amount); 
+  const sum = sumArray.reduce((total, amount) => total + amount); 
 
 //console.log('Sum of sumArray' + sum);
 
 //modulocalc
     const moduloCalc = (sum) => {
       if (sum % 10 == 0 ) {
-        console.log(true)
+        //console.log(true)
+        return true;
       } else {
-        console.log(false)
+       //console.log(false)
+       return false;
       }
     };
     return moduloCalc(sum);
  };
 
+//the result of validate cred is in a 'return' format and therefore to get the result you need to console.log
+//console.log(validateCred(valid3));
 
- //console.log(validateCred(valid3));
+//PART 4 .----------------------------
+//find invalid cards in batch array.. finished but backwards?!?!?!
 
-
-//--------------------------------
-//find invalid cards in batch array
 
 const findInvalidCards = (batchOfCards) => {
-  let invalidCardNumbers = [];
-  for(let i of batchOfCards) {
-    if (validateCred(i) === 'false') {
-    invalidCardNumbers.push(batchofCards[i]);
-    }
+ 
+let invalidCardNumbers = [];
+  for (let i=0; i<batchOfCards.length; i++) {
+
+//prints card number plus is true or false   
+  //console.log('The card ' + batchOfCards[i] + ' is ' + validateCred(batchOfCards[i]));
+
+//if statement to push true arrays to invalidCardNumbers
+
+let result = validateCred(batchOfCards[i])
+
+    if (result == false) {
+      batchOfCards[i].reverse();
+      invalidCardNumbers.push(batchOfCards[i]);
+    };
+
   }
-  console.log(invalidCardNumbers);
+
+return invalidCardNumbers;
 }; 
 
-findInvalidCards(batch);
+//to check part 4 works
+  //  console.log(findInvalidCards(batch));
 
+
+
+
+// PART 5 --------------- NYF.
+
+
+//To create an input for Part 5
+const invalidCardNumberArr = (findInvalidCards(batch));
+//console.log(invalidCardNumberArr);
+
+
+const idInvalidCardCompanies = (batchOfCards) => {
+  let naughtyCompanies = [];
+  for (let i=0; i<batchOfCards.length; i++) {
+ 
+if (batchOfCards[i][0] == 3) {
+  if (naughtyCompanies.indexOf('Amex') == -1) {
+  naughtyCompanies.push('Amex')};
+} else if (batchOfCards[i][0] == 4) {
+  if (naughtyCompanies.indexOf('Visa') == -1) {
+  naughtyCompanies.push('Visa')};
+} else if (batchOfCards[i][0] == 5) {
+  if (naughtyCompanies.indexOf('MasterCard') == -1) {
+  naughtyCompanies.push('MasterCard')};
+} else if (batchOfCards[i][0] == 6) {
+  if (naughtyCompanies.indexOf('Discover') == -1) {
+  naughtyCompanies.push('Discover')};
+} else { return 'Company not found'};
+  }
+console.log(naughtyCompanies);  
+
+  };
+
+idInvalidCardCompanies(invalidCardNumberArr);
